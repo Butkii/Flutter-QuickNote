@@ -1,2 +1,4 @@
 # mynotes
-A notes app built using Flutter
+
+A notes app built using Flutter.
+

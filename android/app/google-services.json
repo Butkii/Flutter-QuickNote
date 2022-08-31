@@ -1,0 +1,39 @@
+{
+  "project_info": {
+    "project_number": "586996538184",
+    "project_id": "mynotes-butkii",
+    "storage_bucket": "mynotes-butkii.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:586996538184:android:a2f6f5102a411f3f00f17d",
+        "android_client_info": {
+          "package_name": "com.butkii.mynotes"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "586996538184-he85495fhmq2s07mu04p3su12ibp9fbd.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyDJzISi0LLDWZMMxSs-DAPmXzqY6PNHWns"
+        }
+      ],
+      "services": {
+        "appinvite_service": {
+          "other_platform_oauth_client": [
+            {
+              "client_id": "586996538184-he85495fhmq2s07mu04p3su12ibp9fbd.apps.googleusercontent.com",
+              "client_type": 3
+            }
+          ]
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
