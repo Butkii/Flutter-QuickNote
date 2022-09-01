@@ -1,6 +1,7 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:firebase_core/firebase_core.dart';
 import 'package:flutter/material.dart';
+import 'package:mynotes/constants/routes.dart';
 import 'package:mynotes/firebase_options.dart';
 import 'package:mynotes/views/login_view.dart';
 import 'package:mynotes/views/register_view.dart';
@@ -16,13 +17,13 @@ void main() {
     ),
     home: const HomePage(),
     routes: {
-      '/login/': ((context) {
+      loginRoute: ((context) {
         return const LoginView();
       }),
-      '/register/': ((context) {
+      registerRoute: ((context) {
         return const RegisterView();
       }),
-      '/notes/': ((context) {
+      notesRoute: ((context) {
         return const NotesView();
       }),
     },
@@ -90,7 +91,8 @@ class _NotesViewState extends State<NotesView> {
                 final shouldLogout = await showLogOutDialog(context);
                 if (shouldLogout) {
                   await FirebaseAuth.instance.signOut();
-                  Navigator.of(context).pushNamedAndRemoveUntil('/login/', (_) {
+                  Navigator.of(context).pushNamedAndRemoveUntil(loginRoute,
+                      (_) {
                     return false;
                   });
                 } else {
