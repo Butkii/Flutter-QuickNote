@@ -16,11 +16,14 @@ void main() {
     ),
     home: const HomePage(),
     routes: {
-      '/login': ((context) {
+      '/login/': ((context) {
         return const LoginView();
       }),
-      '/register': ((context) {
+      '/register/': ((context) {
         return const RegisterView();
+      }),
+      '/notes/': ((context) {
+        return const NotesView();
       }),
     },
   ));
@@ -77,7 +80,9 @@ class _NotesViewState extends State<NotesView> {
           PopupMenuButton<MenuAction>(itemBuilder: (context) {
             return const [
               PopupMenuItem<MenuAction>(
-                  value: MenuAction.logout, child: Text('Log Out'))
+                value: MenuAction.logout,
+                child: Text('Log Out'),
+              )
             ];
           }, onSelected: (value) async {
             switch (value) {
@@ -85,7 +90,7 @@ class _NotesViewState extends State<NotesView> {
                 final shouldLogout = await showLogOutDialog(context);
                 if (shouldLogout) {
                   await FirebaseAuth.instance.signOut();
-                  Navigator.of(context).pushNamedAndRemoveUntil('/login', (_) {
+                  Navigator.of(context).pushNamedAndRemoveUntil('/login/', (_) {
                     return false;
                   });
                 } else {

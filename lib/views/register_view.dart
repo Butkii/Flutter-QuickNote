@@ -1,5 +1,6 @@
 import 'package:firebase_auth/firebase_auth.dart';
 import 'package:flutter/material.dart';
+import 'dart:developer' as devtools show log;
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -58,17 +59,19 @@ class _RegisterViewState extends State<RegisterView> {
               final email = _email.text;
               final password = _password.text;
               try {
-                final userCredential = await FirebaseAuth.instance
-                    .createUserWithEmailAndPassword(
-                        email: email, password: password);
-                print(userCredential);
+                final userCredential =
+                    await FirebaseAuth.instance.createUserWithEmailAndPassword(
+                  email: email,
+                  password: password,
+                );
+                devtools.log(userCredential.toString());
               } on FirebaseAuthException catch (e) {
                 if (e.code == 'email-already-in-use') {
-                  print('An account already exists for that email.');
+                  devtools.log('An account already exists for that email.');
                 } else if (e.code == 'weak-password') {
-                  print('The password is too weak.');
+                  devtools.log('The password is too weak.');
                 } else if (e.code == 'invalid-email') {
-                  print('The email is invalid.');
+                  devtools.log('The email is invalid.');
                 }
               }
             },
@@ -76,8 +79,10 @@ class _RegisterViewState extends State<RegisterView> {
           ),
           TextButton(
               onPressed: () {
-                Navigator.of(context)
-                    .pushNamedAndRemoveUntil('/login', (route) => false);
+                Navigator.of(context).pushNamedAndRemoveUntil(
+                  '/login/',
+                  (route) => false,
+                );
               },
               child: const Text('Already registered? Login Here!')),
         ],
