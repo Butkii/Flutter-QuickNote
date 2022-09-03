@@ -15,26 +15,14 @@ class NotesService {
   DatabaseUser? _user;
 
   static final NotesService _shared = NotesService._sharedInstance();
-  NotesService._sharedInstance() {
-    _notesStreamController = StreamController<List<DatabaseNote>>.broadcast(
-      onListen: () {
-        _notesStreamController.sink.add(_notes);
-      },
-    );
-  }
+  NotesService._sharedInstance();
   factory NotesService() => _shared;
 
-  late final StreamController<List<DatabaseNote>> _notesStreamController;
+  // late final StreamController<List<DatabaseNote>> _notesStreamController;
+  final _notesStreamController =
+      StreamController<List<DatabaseNote>>.broadcast();
 
-  Stream<List<DatabaseNote>> get allNotes =>
-      _notesStreamController.stream.filter((note) {
-        final currentUser = _user;
-        if (currentUser != null) {
-          return note.userId == currentUser.id;
-        } else {
-          throw UserShouldBeSetBeforeReadingAllNotes();
-        }
-      });
+  Stream<List<DatabaseNote>> get allNotes => _notesStreamController.stream;
 
   Future<DatabaseUser> getOrCreateUser({
     required String email,
