@@ -59,6 +59,7 @@ class NotesService {
   Future<DatabaseNote> updateNote({
     required DatabaseNote note,
     required String text,
+    required String title,
   }) async {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
@@ -70,6 +71,7 @@ class NotesService {
     final updatesCount = await db.update(
       noteTable,
       {
+        titleColumn: title,
         textColumn: text,
         isSyncedWithCloudColumn: 0,
       },
@@ -153,10 +155,12 @@ class NotesService {
     }
 
     const text = '';
+    const title = '';
     // create the note
     final noteId = await db.insert(noteTable, {
       userIdColumn: owner.id,
       textColumn: text,
+      titleColumn: title,
       isSyncedWithCloudColumn: 1,
     });
 
@@ -164,6 +168,7 @@ class NotesService {
       id: noteId,
       userId: owner.id,
       text: text,
+      title: title,
       isSyncedWithCloud: true,
     );
 
@@ -261,7 +266,7 @@ class NotesService {
     try {
       final docsPath = await getApplicationDocumentsDirectory();
       final dbPath = join(docsPath.path, dbName);
-      final db = await openDatabase(dbPath);
+      final db = await openDatabase(dbPath, version: 4);
       _db = db;
       // create the user table
       await db.execute(createUserTable);
@@ -301,18 +306,21 @@ class DatabaseNote {
   final int id;
   final int userId;
   final String text;
+  final String title;
   final bool isSyncedWithCloud;
 
   DatabaseNote(
       {required this.id,
       required this.userId,
       required this.text,
+      required this.title,
       required this.isSyncedWithCloud});
 
   DatabaseNote.fromRow(Map<String, Object?> map)
       : id = map[idColumn] as int,
         userId = map[userIdColumn] as int,
         text = map[textColumn] as String,
+        title = map[titleColumn] as String,
         isSyncedWithCloud =
             (map[isSyncedWithCloudColumn] as int) == 1 ? true : false;
 
@@ -334,6 +342,7 @@ const idColumn = 'id';
 const emailColumn = 'email';
 const userIdColumn = 'user_id';
 const textColumn = 'text';
+const titleColumn = 'title';
 const isSyncedWithCloudColumn = 'is_synced_with_cloud';
 
 const createUserTable = '''CREATE TABLE IF NOT EXISTS "user" (
@@ -346,6 +355,7 @@ const createNoteTable = '''CREATE TABLE IF NOT EXISTS "note" (
         "id"	INTEGER NOT NULL,
         "user_id"	INTEGER NOT NULL,
         "text"	TEXT,
+        "title"	TEXT,
         "is_synced_with_cloud"	INTEGER NOT NULL DEFAULT 0,
         FOREIGN KEY("user_id") REFERENCES "user"("id"),
         PRIMARY KEY("id" AUTOINCREMENT)

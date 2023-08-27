@@ -27,13 +27,9 @@ class _NotesViewState extends State<NotesView> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
+        backgroundColor: const Color(0xFF7EABFF),
         title: const Text('Your Notes'),
         actions: [
-          IconButton(
-              onPressed: () {
-                Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
-              },
-              icon: const Icon(Icons.add)),
           PopupMenuButton<MenuAction>(itemBuilder: (context) {
             return const [
               PopupMenuItem<MenuAction>(
@@ -88,6 +84,14 @@ class _NotesViewState extends State<NotesView> {
           }
         },
       ),
+      floatingActionButton: FloatingActionButton(
+        onPressed: () {
+          Navigator.of(context).pushNamed(createOrUpdateNoteRoute);
+        },
+        backgroundColor: const Color(0xFFBB95A1),
+        child: const Icon(Icons.add), // Customize the button color
+      ),
+      floatingActionButtonLocation: FloatingActionButtonLocation.endFloat,
     );
   }
 }
