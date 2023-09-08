@@ -14,11 +14,13 @@ class LoginView extends StatefulWidget {
 class _LoginViewState extends State<LoginView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
+  bool passwordVisible = false;
 
   @override
   void initState() {
     _email = TextEditingController();
     _password = TextEditingController();
+    passwordVisible = true;
     super.initState();
   }
 
@@ -69,16 +71,28 @@ class _LoginViewState extends State<LoginView> {
             padding: const EdgeInsets.all(10.0),
             child: TextField(
               controller: _password,
-              obscureText: true,
+              obscureText: passwordVisible,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color(0XFF817C7A),
                   ),
                 ),
                 labelText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onPressed: () {
+                    setState(
+                      () {
+                        passwordVisible = !passwordVisible;
+                      },
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -136,20 +150,30 @@ class _LoginViewState extends State<LoginView> {
             ),
           ),
           TextButton(
-              onPressed: () {
-                //forgot password route
-              },
-              child: const Text('Forgot password?',
-                  style: TextStyle(color: Color(0XFF2297D7)))),
+            onPressed: () {
+              //forgot password route
+            },
+            child: const Text(
+              'Forgot password?',
+              style: TextStyle(
+                color: Color(0XFF2297D7),
+              ),
+            ),
+          ),
           TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  registerRoute,
-                  (route) => false,
-                );
-              },
-              child: const Text('Not registered? Register here!',
-                  style: TextStyle(color: Color(0XFF2297D7)))),
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                registerRoute,
+                (route) => false,
+              );
+            },
+            child: const Text(
+              'Not registered? Register here!',
+              style: TextStyle(
+                color: Color(0XFF2297D7),
+              ),
+            ),
+          ),
         ],
       ),
     );

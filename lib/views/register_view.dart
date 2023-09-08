@@ -14,11 +14,13 @@ class RegisterView extends StatefulWidget {
 class _RegisterViewState extends State<RegisterView> {
   late final TextEditingController _email;
   late final TextEditingController _password;
+  bool passwordVisible = false;
 
   @override
   void initState() {
     _email = TextEditingController();
     _password = TextEditingController();
+    passwordVisible = true;
     super.initState();
   }
 
@@ -72,13 +74,25 @@ class _RegisterViewState extends State<RegisterView> {
               obscureText: true,
               enableSuggestions: false,
               autocorrect: false,
-              decoration: const InputDecoration(
-                border: OutlineInputBorder(
+              decoration: InputDecoration(
+                border: const OutlineInputBorder(
                   borderSide: BorderSide(
                     color: Color(0XFF817C7A),
                   ),
                 ),
                 labelText: 'Password',
+                suffixIcon: IconButton(
+                  icon: Icon(passwordVisible
+                      ? Icons.visibility
+                      : Icons.visibility_off),
+                  onPressed: () {
+                    setState(
+                      () {
+                        passwordVisible = !passwordVisible;
+                      },
+                    );
+                  },
+                ),
               ),
             ),
           ),
@@ -128,14 +142,19 @@ class _RegisterViewState extends State<RegisterView> {
             ),
           ),
           TextButton(
-              onPressed: () {
-                Navigator.of(context).pushNamedAndRemoveUntil(
-                  loginRoute,
-                  (route) => false,
-                );
-              },
-              child: const Text('Already registered? Login Here!',
-                  style: TextStyle(color: Color(0XFFF4EFEA)))),
+            onPressed: () {
+              Navigator.of(context).pushNamedAndRemoveUntil(
+                loginRoute,
+                (route) => false,
+              );
+            },
+            child: const Text(
+              'Already registered? Login Here!',
+              style: TextStyle(
+                color: Color(0XFF2297D7),
+              ),
+            ),
+          ),
         ],
       ),
     );

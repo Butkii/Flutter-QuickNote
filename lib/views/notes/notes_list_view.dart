@@ -22,6 +22,12 @@ class NotesListView extends StatelessWidget {
         final note = notes[index];
         return ListTile(
           title: Text(
+            note.title,
+            maxLines: 1,
+            softWrap: true,
+            overflow: TextOverflow.ellipsis,
+          ),
+          subtitle: Text(
             note.text,
             maxLines: 1,
             softWrap: true,

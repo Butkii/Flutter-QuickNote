@@ -64,10 +64,10 @@ class NotesService {
     await _ensureDbIsOpen();
     final db = _getDatabaseOrThrow();
 
-    // make sure note exists
-    await getNote(id: note.id);
+    // Make sure note exists
+    final existingNote = await getNote(id: note.id);
 
-    // update DB
+    // Update DB
     final updatesCount = await db.update(
       noteTable,
       {
@@ -82,10 +82,24 @@ class NotesService {
     if (updatesCount == 0) {
       throw CouldNotUpdateNote();
     } else {
-      final updatedNote = await getNote(id: note.id);
-      _notes.removeWhere((note) => note.id == updatedNote.id);
-      _notes.add(updatedNote);
+      // Create a new instance of DatabaseNote with updated values
+      final updatedNote = DatabaseNote(
+        id: existingNote.id,
+        userId: existingNote.userId,
+        title: title,
+        text: text,
+        isSyncedWithCloud: false, // Assuming 0 indicates not synced
+      );
+
+      // Replace the existing note in _notes with the updatedNote
+      final noteIndex = _notes.indexWhere((note) => note.id == updatedNote.id);
+      if (noteIndex >= 0) {
+        _notes[noteIndex] = updatedNote;
+      }
+
+      // Notify the stream listeners of the change
       _notesStreamController.add(_notes);
+
       return updatedNote;
     }
   }
