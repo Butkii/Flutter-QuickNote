@@ -26,8 +26,9 @@ class _NotesViewState extends State<NotesView> {
   @override
   Widget build(BuildContext context) {
     return Scaffold(
+      backgroundColor: const Color(0XFFF4EFEA),
       appBar: AppBar(
-        backgroundColor: const Color(0xFF7EABFF),
+        backgroundColor: const Color(0XFFF4EFEA),
         title: const Text('Your Notes'),
         actions: [
           PopupMenuButton<MenuAction>(itemBuilder: (context) {

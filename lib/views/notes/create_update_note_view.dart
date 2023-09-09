@@ -1,4 +1,5 @@
 import 'dart:io';
+import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:mynotes/services/auth/auth_service.dart';
 import 'package:mynotes/services/crud/notes_services.dart';
@@ -20,7 +21,12 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
   late final List<File> _pickedImages = [];
   final _picker = ImagePicker();
   bool isMenuOpen = false;
-  late File file; // Track if the menu is open or closed
+  late File file;
+  bool isBoldActive = false;
+  TextSelection? selectedText;
+  bool isItalicsActive = false;
+  bool isUnderlineActive = false;
+  bool isStrikethroughActive = false;
 
   // Function to toggle the menu state
   void toggleMenu() {
@@ -189,8 +195,9 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
         ),
         actions: [
           PopupMenuButton<String>(
+            offset: const Offset(0, 50),
             child: const Padding(
-              padding: EdgeInsets.only(right: 8.0),
+              padding: EdgeInsets.only(right: 12.0),
               child: Icon(
                 Icons.add,
                 color: Color(0xFF7EABFF),
@@ -220,6 +227,12 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
                 child: Icon(Icons.camera_alt_rounded),
               )
             ],
+            tooltip: 'Open menu',
+            elevation: 3, // Shadow depth
+            padding: EdgeInsets.zero, // Remove default padding
+            shape: RoundedRectangleBorder(
+              borderRadius: BorderRadius.circular(10), // Round the corners
+            ),
           ),
         ],
       ),
@@ -246,12 +259,86 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
               controller: _textController,
               keyboardType: TextInputType.multiline,
               maxLines: null,
+              // style: TextStyle(
+              //   fontWeight: isBoldActive ? FontWeight.bold : FontWeight.normal,
+              // ),
               decoration: const InputDecoration(
                   border: InputBorder.none,
                   hintText: 'Start typing your note here'),
             ),
           ),
         ],
+      ),
+      bottomNavigationBar: BottomAppBar(
+        color: const Color(0XFFC2BDB8),
+        child: Row(
+          children: [
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isBoldActive = !isBoldActive;
+                  // _applyBoldToSelectedText();
+                });
+              },
+              icon: Icon(
+                Icons.format_bold_rounded,
+                color: isBoldActive
+                    ? Colors.blue
+                    : Colors
+                        .black, // Change the icon color based on the bold state
+              ),
+              splashColor: Colors.brown.shade100,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isItalicsActive = !isItalicsActive;
+                });
+              },
+              icon: Icon(
+                Icons.format_italic_rounded,
+                color: isItalicsActive ? Colors.blue : Colors.black,
+              ),
+              splashColor: Colors.brown.shade100,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isUnderlineActive = !isUnderlineActive;
+                });
+              },
+              icon: Icon(
+                Icons.format_underline_rounded,
+                color: isUnderlineActive ? Colors.blue : Colors.black,
+              ),
+              splashColor: Colors.brown.shade100,
+            ),
+            IconButton(
+              onPressed: () {
+                setState(() {
+                  isStrikethroughActive = !isStrikethroughActive;
+                });
+              },
+              icon: Icon(
+                Icons.format_strikethrough_rounded,
+                color: isStrikethroughActive ? Colors.blue : Colors.black,
+              ),
+              splashColor: Colors.brown.shade100,
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.format_list_bulleted_rounded),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.format_list_numbered_rounded),
+            ),
+            IconButton(
+              onPressed: () {},
+              icon: const Icon(Icons.check_box_rounded),
+            ),
+          ],
+        ),
       ),
     );
   }
