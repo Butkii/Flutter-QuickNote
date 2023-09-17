@@ -1,5 +1,5 @@
 import 'dart:io';
-import 'dart:math';
+import 'package:QuickNote/utilities/generics/get_arguments.dart';
 import 'package:flutter/material.dart';
 import 'package:QuickNote/services/auth/auth_service.dart';
 import 'package:QuickNote/services/cloud/cloud_note.dart';
@@ -65,7 +65,16 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
     }
   }
 
-  Future<CloudNote> createNewNote() async {
+  Future<CloudNote> createOrGetExistingNote(BuildContext context) async {
+    final widgetNote = context.getArgument<CloudNote>();
+
+    if (widgetNote != null) {
+      _note = widgetNote;
+      _textController.text = widgetNote.text;
+      _titleController.text = widgetNote.title;
+      return widgetNote;
+    }
+
     final existingNote = _note;
     if (existingNote != null) {
       return existingNote;
@@ -83,7 +92,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
     if (note != null &&
         _titleController.text.isEmpty &&
         _textController.text.isEmpty) {
-      print('Hello, world!');
+      // print('Hello, world!');
       _notesService.deleteNote(documentId: note.documentId);
     }
   }
@@ -152,7 +161,7 @@ class _CreateUpdateNoteViewState extends State<CreateUpdateNoteView> {
 
   Future<void> _createNoteAndSetupControllers() async {
     if (_note == null) {
-      final note = await createNewNote();
+      final note = await createOrGetExistingNote(context);
       setState(() {
         _note = note;
       });

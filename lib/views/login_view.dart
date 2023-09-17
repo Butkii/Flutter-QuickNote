@@ -36,10 +36,9 @@ class _LoginViewState extends State<LoginView> {
   Widget build(BuildContext context) {
     return Scaffold(
       resizeToAvoidBottomInset: false,
+      backgroundColor: const Color(0XFFF4EFEA),
       appBar: AppBar(
-        backgroundColor: themeMode == ThemeMode.light
-            ? const Color(0xFF7EABFF)
-            : const Color.fromARGB(255, 25, 33, 49),
+        backgroundColor: const Color(0xFF7EABFF),
         title: const Text('Login'),
       ),
       body: Column(
@@ -108,6 +107,7 @@ class _LoginViewState extends State<LoginView> {
             ),
             child: TextButton(
               onPressed: () async {
+                print("pressed");
                 final email = _email.text;
                 final password = _password.text;
                 try {
@@ -116,6 +116,8 @@ class _LoginViewState extends State<LoginView> {
                     password: password,
                   );
                   final user = AuthService.firebase().currentUser;
+                  print(user);
+                  print("Got user");
                   if (user?.isEmailVerified ?? false) {
                     //user's email is verified
                     Navigator.of(context).pushNamedAndRemoveUntil(

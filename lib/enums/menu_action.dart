@@ -1,4 +1,4 @@
 enum MenuAction {
-  logout,
-  theme;
+  logout;
+  // theme;
 }
