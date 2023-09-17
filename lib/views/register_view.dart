@@ -1,8 +1,9 @@
+import 'package:QuickNote/utilities/changeTheme.dart';
 import 'package:flutter/material.dart';
-import 'package:mynotes/services/auth/auth_exceptions.dart';
-import 'package:mynotes/services/auth/auth_service.dart';
-import 'package:mynotes/utilities/dialogs/error_dialog.dart';
-import 'package:mynotes/constants/routes.dart';
+import 'package:QuickNote/services/auth/auth_exceptions.dart';
+import 'package:QuickNote/services/auth/auth_service.dart';
+import 'package:QuickNote/utilities/dialogs/error_dialog.dart';
+import 'package:QuickNote/constants/routes.dart';
 
 class RegisterView extends StatefulWidget {
   const RegisterView({Key? key}) : super(key: key);
@@ -36,7 +37,9 @@ class _RegisterViewState extends State<RegisterView> {
     return Scaffold(
       resizeToAvoidBottomInset: false,
       appBar: AppBar(
-        backgroundColor: const Color(0xFF7EABFF),
+        backgroundColor: themeMode == ThemeMode.light
+            ? const Color(0xFF7EABFF)
+            : const Color.fromARGB(255, 25, 33, 49),
         title: const Text('Register'),
       ),
       body: Column(

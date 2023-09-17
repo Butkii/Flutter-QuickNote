@@ -1,7 +1,7 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
-    package="com.butkii.mynotes">
+    package="com.butkii.QuickNote">
    <application
-        android:label="mynotes"
+        android:label="QuickNote"
         android:name="${applicationName}"
         android:icon="@mipmap/ic_launcher">
         <activity

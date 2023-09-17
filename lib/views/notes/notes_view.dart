@@ -1,10 +1,12 @@
+import 'package:QuickNote/utilities/changeTheme.dart';
 import 'package:flutter/material.dart';
-import 'package:mynotes/enums/menu_action.dart';
-import 'package:mynotes/constants/routes.dart';
-import 'package:mynotes/services/auth/auth_service.dart';
-import 'package:mynotes/services/crud/notes_services.dart';
-import 'package:mynotes/utilities/dialogs/logout_dialog.dart';
-import 'package:mynotes/views/notes/notes_list_view.dart';
+import 'package:QuickNote/enums/menu_action.dart';
+import 'package:QuickNote/constants/routes.dart';
+import 'package:QuickNote/services/auth/auth_service.dart';
+import 'package:QuickNote/services/cloud/cloud_note.dart';
+import 'package:QuickNote/services/cloud/firestore_storage.dart';
+import 'package:QuickNote/utilities/dialogs/logout_dialog.dart';
+import 'package:QuickNote/views/notes/notes_list_view.dart';
 
 class NotesView extends StatefulWidget {
   const NotesView({Key? key}) : super(key: key);
@@ -14,28 +16,45 @@ class NotesView extends StatefulWidget {
 }
 
 class _NotesViewState extends State<NotesView> {
-  late final NotesService _notesService;
-  String get userEmail => AuthService.firebase().currentUser!.email!;
+  late final FirebaseCloudStorage _notesService;
+  String get userId => AuthService.firebase().currentUser!.id;
 
   @override
   void initState() {
-    _notesService = NotesService();
+    _notesService = FirebaseCloudStorage();
     super.initState();
   }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
-      backgroundColor: const Color(0XFFF4EFEA),
+      backgroundColor: themeMode == ThemeMode.light
+          ? Color(0XFFF4EFEA)
+          : Color.fromARGB(255, 36, 36, 36),
       appBar: AppBar(
-        backgroundColor: const Color(0XFFF4EFEA),
-        title: const Text('Your Notes'),
+        backgroundColor: themeMode == ThemeMode.light
+            ? Color(0XFFF4EFEA)
+            : Color.fromARGB(255, 36, 36, 36),
+        elevation: 1,
+        title: const Text(
+          'Your Notes',
+          style: TextStyle(
+            color: Color(0xFF7EABFF),
+          ),
+        ),
+        iconTheme: const IconThemeData(
+          color: Color(0xFF7EABFF),
+        ),
         actions: [
           PopupMenuButton<MenuAction>(itemBuilder: (context) {
             return const [
               PopupMenuItem<MenuAction>(
                 value: MenuAction.logout,
                 child: Text('Log Out'),
+              ),
+              PopupMenuItem<MenuAction>(
+                value: MenuAction.theme,
+                child: Text('Dark Mode'),
               )
             ];
           }, onSelected: (value) async {
@@ -51,40 +70,39 @@ class _NotesViewState extends State<NotesView> {
                 } else {
                   return;
                 }
+                break;
+              case MenuAction.theme:
+                // setState(() {
+                //   themeMode = themeMode == ThemeMode.light
+                //       ? ThemeMode.dark
+                //       : ThemeMode.light;
+                // });
+                break;
             }
           })
         ],
       ),
-      body: FutureBuilder(
-        future: _notesService.getOrCreateUser(email: userEmail),
-        builder: (context, snapshot) {
-          switch (snapshot.connectionState) {
-            case ConnectionState.done:
-              return StreamBuilder(
-                  stream: _notesService.allNotes,
-                  builder: (context, snapshot) {
-                    switch (snapshot.connectionState) {
-                      case ConnectionState.waiting:
-                      case ConnectionState.active:
-                        if (snapshot.hasData) {
-                          final allNotes = snapshot.data as List<DatabaseNote>;
-                          return NotesListView(
-                              notes: allNotes,
-                              onDeleteNote: (note) async {
-                                await _notesService.deleteNote(id: note.id);
-                              });
-                        } else {
-                          return const CircularProgressIndicator();
-                        }
-                      default:
-                        return const CircularProgressIndicator();
-                    }
-                  });
-            default:
-              return const CircularProgressIndicator();
-          }
-        },
-      ),
+      body: StreamBuilder(
+          stream: _notesService.allNotes(ownerUserId: userId),
+          builder: (context, snapshot) {
+            switch (snapshot.connectionState) {
+              case ConnectionState.waiting:
+              case ConnectionState.active:
+                if (snapshot.hasData) {
+                  final allNotes = snapshot.data as List<CloudNote>;
+                  return NotesListView(
+                      notes: allNotes,
+                      onDeleteNote: (note) async {
+                        await _notesService.deleteNote(
+                            documentId: note.documentId);
+                      });
+                } else {
+                  return const CircularProgressIndicator();
+                }
+              default:
+                return const CircularProgressIndicator();
+            }
+          }),
       floatingActionButton: FloatingActionButton(
         onPressed: () {
           Navigator.of(context).pushNamed(createOrUpdateNoteRoute);

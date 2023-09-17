@@ -1,15 +1,15 @@
 {
   "project_info": {
     "project_number": "586996538184",
-    "project_id": "mynotes-butkii",
-    "storage_bucket": "mynotes-butkii.appspot.com"
+    "project_id": "QuickNote-butkii",
+    "storage_bucket": "QuickNote-butkii.appspot.com"
   },
   "client": [
     {
       "client_info": {
         "mobilesdk_app_id": "1:586996538184:android:a2f6f5102a411f3f00f17d",
         "android_client_info": {
-          "package_name": "com.butkii.mynotes"
+          "package_name": "com.butkii.QuickNote"
         }
       },
       "oauth_client": [
@@ -34,7 +34,7 @@
               "client_id": "586996538184-kjc1kk7l3go4t54qrqnmsri6s8h0h7oi.apps.googleusercontent.com",
               "client_type": 2,
               "ios_info": {
-                "bundle_id": "com.butkii.mynotes"
+                "bundle_id": "com.butkii.QuickNote"
               }
             }
           ]

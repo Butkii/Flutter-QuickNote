@@ -13,11 +13,11 @@
 	<key>PLIST_VERSION</key>
 	<string>1</string>
 	<key>BUNDLE_ID</key>
-	<string>com.butkii.mynotes</string>
+	<string>com.butkii.QuickNote</string>
 	<key>PROJECT_ID</key>
-	<string>mynotes-butkii</string>
+	<string>QuickNote-butkii</string>
 	<key>STORAGE_BUCKET</key>
-	<string>mynotes-butkii.appspot.com</string>
+	<string>QuickNote-butkii.appspot.com</string>
 	<key>IS_ADS_ENABLED</key>
 	<false></false>
 	<key>IS_ANALYTICS_ENABLED</key>

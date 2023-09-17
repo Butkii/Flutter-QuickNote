@@ -1,4 +1,4 @@
-# mynotes
+# QuickNote
 
 A notes app built using Flutter.
 

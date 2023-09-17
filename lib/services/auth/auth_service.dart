@@ -1,6 +1,6 @@
-import 'package:mynotes/services/auth/auth_provider.dart';
-import 'package:mynotes/services/auth/auth_user.dart';
-import 'package:mynotes/services/auth/firebase_auth_provider.dart';
+import 'package:QuickNote/services/auth/auth_provider.dart';
+import 'package:QuickNote/services/auth/auth_user.dart';
+import 'package:QuickNote/services/auth/firebase_auth_provider.dart';
 
 class AuthService implements AuthProvider {
   final AuthProvider provider;

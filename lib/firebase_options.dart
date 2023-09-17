@@ -63,7 +63,8 @@ class DefaultFirebaseOptions {
     messagingSenderId: '586996538184',
     projectId: 'mynotes-butkii',
     storageBucket: 'mynotes-butkii.appspot.com',
-    iosClientId: '586996538184-kjc1kk7l3go4t54qrqnmsri6s8h0h7oi.apps.googleusercontent.com',
+    iosClientId:
+        '586996538184-kjc1kk7l3go4t54qrqnmsri6s8h0h7oi.apps.googleusercontent.com',
     iosBundleId: 'com.butkii.mynotes',
   );
 }
