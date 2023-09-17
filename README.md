@@ -6,7 +6,8 @@ Created with Vandad Nahavandipoor's Free Flutter Course @ https://www.youtube.co
 
 Screens:
 
-![WhatsApp Image 2023-09-17 at 17 11 34](https://github.com/Butkii/Flutter-QuickNote/assets/72260135/fd951042-2c0a-48b1-b5cd-20ca6d1fd8aa)
+<img src="https://github.com/Butkii/Flutter-QuickNote/assets/72260135/fd951042-2c0a-48b1-b5cd-20ca6d1fd8aa" width="48">
+
 
 ![WhatsApp Image 2023-09-17 at 17 11 33](https://github.com/Butkii/Flutter-QuickNote/assets/72260135/14f2da84-6c0f-4066-be22-a4b39db0cc2e)
 
